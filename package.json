@@ -1,6 +1,6 @@
 {
   "name": "@livechat/developer-sdk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": false,
   "description": "This project is SDK for creating LiveChat Developer Applications.",
   "author": "Wojciech Dudek",
