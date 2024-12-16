@@ -65,7 +65,7 @@ If your Developer App has authorization block you can use `Developer-SDK` to pro
 
 ### Initialization
 
-Use the `App.init` method to initialize your Developer App. It takes a `AppConfig` as its argument and returns a `App` instance:
+Use the `App.init` method to initialize your Developer App. It takes an `AppConfig` as its argument and returns an `App` instance:
 
 ```ts
 import { App, AppConfig } from "@livechat/developer-sdk";
