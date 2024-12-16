@@ -14,17 +14,21 @@ npm install @livechat/developer-sdk
 
 ## Developer App
 
-The `DeveloperApp` is class that provides methods for initializing and configuring your developer application.
+The `App` is class that provides methods for initializing and configuring your developer application.
 
 ### Config
 
-In order to use the `DeveloperApp` class in your project first you need to define your `DeveloperAppConfig` accordingly to shape:
+In order to use the `App` class in your project first you need to define your `AppConfig` accordingly to shape:
 
 ```ts
-interface DeveloperAppConfig {
-  /* 1 */ appId: string;
-  /* 2 */ auth?: {
-    clientId?: string;
+interface AppConfig {
+  appId: string;
+  blocks?: {
+    authorization?: {
+      clientId?: string;
+    }
+  },
+  auth?: {
     mode?: "popup" | "iframe" | "redirect";
   };
 }
@@ -42,14 +46,14 @@ We suggest store config in dedicated file: `livechat.config.json`
 but you can also store in it variable:
 
 ```ts
-const config: DeveloperAppConfig = {
+const config: AppConfig = {
   // ...
 };
 ```
 
 1. Developer App ID
 
-A required property of `DeveloperAppConfig` is `appId` - it can be obtained directly from Developer Console by extracting it from url:
+A required property of `AppConfig` is `appId` - it can be obtained directly from Developer Console by extracting it from url:
 
 ```
 https://platform.text.com/console/apps/{appId}/monitor
@@ -61,14 +65,14 @@ If your Developer App has authorization block you can use `Developer-SDK` to pro
 
 ### Initialization
 
-Use the `DeveloperApp.init` method to initialize your Developer App. It takes a `DeveloperAppConfig` as its argument and returns a `DeveloperApp` instance:
+Use the `App.init` method to initialize your Developer App. It takes a `AppConfig` as its argument and returns a `App` instance:
 
 ```ts
-import { DeveloperApp, DeveloperAppConfig } from "@livechat/developer-sdk";
+import { App, AppConfig } from "@livechat/developer-sdk";
 import lcConfig from "./livechat.config.json";
 
-const config = lcConfig as DeveloperAppConfig;
-const app = DeveloperApp.init(config);
+const config = lcConfig as unknown as AppConfig;
+const app = App.init(config);
 ```
 
 ### Authorization
@@ -92,10 +96,10 @@ In react applications you can build custom hook to ensure proper app initializat
 
 ```ts
 function useDeveloperApp() {
-  const [developerApp, setDeveloperApp] = useState<DeveloperApp | null>(null);
+  const [developerApp, setDeveloperApp] = useState<App | null>(null);
 
   useEffect(() => {
-    const app = DeveloperApp.init(config);
+    const app = App.init(config);
 
     if (config.auth?.clientId) {
       app.authorize().then(() => setDeveloperApp(app));
